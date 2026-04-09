@@ -61,24 +61,24 @@ const ActivitiesSection = () => {
                   <img
                     src={activity.image}
                     alt={activity.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     loading="lazy"
                     width={800}
                     height={600}
                   />
                   {/* Gradient overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-t ${activity.color} opacity-60 group-hover:opacity-50 transition-opacity duration-500`} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-transparent to-transparent" />
+                  <div className={`absolute inset-0 bg-gradient-to-t ${activity.color} opacity-60 group-hover:opacity-40 transition-opacity duration-500`} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
 
-                  {/* Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                  {/* Content - slides up on hover */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 transform transition-transform duration-500">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 rounded-lg bg-primary-foreground/20 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-lg bg-primary/30 backdrop-blur-sm flex items-center justify-center group-hover:bg-primary/50 transition-colors duration-300">
                         <activity.icon className="text-primary-foreground" size={20} />
                       </div>
                       <h3 className="font-heading font-bold text-xl text-primary-foreground">{activity.title}</h3>
                     </div>
-                    <p className="text-primary-foreground/80 text-sm leading-relaxed max-w-md">
+                    <p className="text-primary-foreground/70 text-sm leading-relaxed max-w-md opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
                       {activity.description}
                     </p>
                   </div>
