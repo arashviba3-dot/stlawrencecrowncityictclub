@@ -12,7 +12,7 @@ const Footer = () => {
             <img src={clubLogo} alt="SLC ICT Club" className="w-14 h-14 object-contain" width={56} height={56} loading="lazy" />
             <div>
               <p className="font-heading font-bold text-xl">
-                <span className="text-primary">SLC</span> <span className="text-glow">ICT</span> <span className="text-accent">Club</span>
+                <span className="text-blue-pop">S</span><span className="text-yellow-pop">L</span><span className="text-pink-pop">C</span> <span className="text-glow">ICT</span> <span className="text-primary">Club</span>
               </p>
               <p className="text-muted-foreground text-xs italic">
                 "The world rewards success, not efforts"

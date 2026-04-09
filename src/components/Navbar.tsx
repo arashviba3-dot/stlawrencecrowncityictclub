@@ -20,7 +20,7 @@ const Navbar = () => {
         <a href="#home" className="flex items-center gap-3">
           <img src={clubLogo} alt="SLC ICT Club Logo" className="w-12 h-12 object-contain" width={48} height={48} />
           <span className="font-heading font-bold text-lg tracking-tight">
-            <span className="text-primary">SLC</span> <span className="text-glow">ICT</span> <span className="text-accent">Club</span>
+            <span className="text-blue-pop">S</span><span className="text-yellow-pop">L</span><span className="text-pink-pop">C</span> <span className="text-glow">ICT</span> <span className="text-primary">Club</span>
           </span>
         </a>
 
