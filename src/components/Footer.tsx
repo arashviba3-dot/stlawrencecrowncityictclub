@@ -9,10 +9,10 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="py-12 flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex items-center gap-3">
-            <img src={clubLogo} alt="SLC ICT Club" className="w-10 h-10 object-contain" width={40} height={40} loading="lazy" />
+            <img src={clubLogo} alt="SLC ICT Club" className="w-14 h-14 object-contain" width={56} height={56} loading="lazy" />
             <div>
-              <p className="font-heading font-bold text-xl text-foreground">
-                SLC <span className="text-glow">ICT Club</span>
+              <p className="font-heading font-bold text-xl">
+                <span className="text-primary">SLC</span> <span className="text-glow">ICT</span> <span className="text-accent">Club</span>
               </p>
               <p className="text-muted-foreground text-xs italic">
                 "The world rewards success, not efforts"
