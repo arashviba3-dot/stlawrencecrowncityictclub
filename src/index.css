@@ -85,7 +85,10 @@
     @apply border-border;
   }
 
-  body {
+  html {
+    scroll-behavior: smooth;
+  }
+
     @apply bg-background text-foreground font-body antialiased;
   }
 
