@@ -1,38 +1,43 @@
-import { User } from "lucide-react";
+import { User, Crown, Shield, Wrench, PenTool, GraduationCap } from "lucide-react";
+import AnimatedSection from "./AnimatedSection";
 
 const team = [
-  { name: "Club President", role: "President", desc: "Leads club meetings, organizes events, and represents the club in school activities." },
-  { name: "Vice President", role: "Vice President", desc: "Supports the president and coordinates project teams across all ICT initiatives." },
-  { name: "Secretary", role: "Secretary", desc: "Manages documentation, meeting notes, and communication with members." },
-  { name: "Tech Lead", role: "Technical Lead", desc: "Guides students through coding workshops and oversees technical projects." },
-  { name: "Design Lead", role: "Design Lead", desc: "Leads graphic design and digital media production activities." },
-  { name: "Club Patron", role: "Staff Patron", desc: "Provides mentorship and guidance to club members on all activities." },
+  { name: "Club President", role: "President", icon: Crown, desc: "Leads club meetings, organizes events, and represents the club in school activities.", accent: "from-primary to-secondary" },
+  { name: "Vice President", role: "Vice President", icon: Shield, desc: "Supports the president and coordinates project teams across all ICT initiatives.", accent: "from-secondary to-primary" },
+  { name: "Secretary", role: "Secretary", icon: User, desc: "Manages documentation, meeting notes, and communication with members.", accent: "from-primary to-accent" },
+  { name: "Tech Lead", role: "Technical Lead", icon: Wrench, desc: "Guides students through coding workshops and oversees technical projects.", accent: "from-secondary to-primary" },
+  { name: "Design Lead", role: "Design Lead", icon: PenTool, desc: "Leads graphic design and digital media production activities.", accent: "from-accent to-primary" },
+  { name: "Club Patron", role: "Staff Patron", icon: GraduationCap, desc: "Provides mentorship and guidance to club members on all activities.", accent: "from-primary to-secondary" },
 ];
 
 const TeamSection = () => {
   return (
-    <section id="team" className="py-20 md:py-28 bg-background">
+    <section id="team" className="py-20 md:py-28 section-alt">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <p className="text-primary font-heading font-semibold text-sm uppercase tracking-widest mb-3">Our Team</p>
-          <h2 className="font-heading font-bold text-3xl md:text-4xl text-foreground mb-4">
-            Meet the Leaders
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Our club is driven by passionate student leaders who organize events, mentor peers, and push innovation forward.
-          </p>
-        </div>
+        <AnimatedSection>
+          <div className="section-header">
+            <span className="section-label">Our Team</span>
+            <h2 className="section-title">
+              Meet the <span className="text-gradient">Leaders</span>
+            </h2>
+            <p className="section-desc">
+              Our club is driven by passionate student leaders who organize events, mentor peers, and push innovation forward.
+            </p>
+          </div>
+        </AnimatedSection>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {team.map((member) => (
-            <div key={member.role} className="bg-card rounded-xl p-6 text-center shadow-sm border border-border card-hover">
-              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                <User className="text-primary" size={28} />
+          {team.map((member, i) => (
+            <AnimatedSection key={member.role} delay={i * 80}>
+              <div className="glass-card rounded-2xl p-7 text-center card-hover glow-border group">
+                <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${member.accent} flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform duration-500`}>
+                  <member.icon className="text-primary-foreground" size={32} />
+                </div>
+                <h3 className="font-heading font-bold text-lg text-foreground">{member.name}</h3>
+                <p className="text-primary text-sm font-semibold mb-3 tracking-wide">{member.role}</p>
+                <p className="text-muted-foreground text-sm leading-relaxed">{member.desc}</p>
               </div>
-              <h3 className="font-heading font-semibold text-foreground">{member.name}</h3>
-              <p className="text-primary text-sm font-medium mb-2">{member.role}</p>
-              <p className="text-muted-foreground text-sm leading-relaxed">{member.desc}</p>
-            </div>
+            </AnimatedSection>
           ))}
         </div>
       </div>
