@@ -6,47 +6,47 @@
 
 @layer base {
   :root {
-    --background: 210 30% 98%;
-    --foreground: 207 60% 12%;
+    --background: 150 15% 10%;
+    --foreground: 150 10% 90%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 207 60% 12%;
+    --card: 150 15% 13%;
+    --card-foreground: 150 10% 90%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 207 60% 12%;
+    --popover: 150 15% 13%;
+    --popover-foreground: 150 10% 90%;
 
-    --primary: 200 70% 35%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 160 60% 40%;
+    --primary-foreground: 150 20% 98%;
 
-    --secondary: 174 50% 45%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 170 45% 30%;
+    --secondary-foreground: 150 20% 95%;
 
-    --muted: 210 25% 93%;
-    --muted-foreground: 207 20% 46%;
+    --muted: 150 12% 18%;
+    --muted-foreground: 150 10% 55%;
 
-    --accent: 174 50% 45%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 140 50% 45%;
+    --accent-foreground: 150 20% 98%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 150 20% 98%;
 
-    --border: 210 25% 88%;
-    --input: 210 25% 88%;
-    --ring: 200 70% 35%;
+    --border: 150 12% 20%;
+    --input: 150 12% 20%;
+    --ring: 160 60% 40%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 207 60% 8%;
-    --sidebar-foreground: 210 25% 93%;
-    --sidebar-primary: 200 70% 35%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 207 50% 15%;
-    --sidebar-accent-foreground: 210 25% 93%;
-    --sidebar-border: 207 40% 18%;
-    --sidebar-ring: 200 70% 35%;
+    --sidebar-background: 150 18% 7%;
+    --sidebar-foreground: 150 10% 85%;
+    --sidebar-primary: 160 60% 40%;
+    --sidebar-primary-foreground: 150 20% 98%;
+    --sidebar-accent: 150 15% 15%;
+    --sidebar-accent-foreground: 150 10% 85%;
+    --sidebar-border: 150 12% 18%;
+    --sidebar-ring: 160 60% 40%;
 
-    --glow: 174 60% 50%;
-    --deep: 207 60% 8%;
+    --glow: 150 70% 50%;
+    --deep: 150 18% 6%;
   }
 }
 
