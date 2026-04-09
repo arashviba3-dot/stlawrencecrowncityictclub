@@ -33,7 +33,7 @@ const HeroSection = () => {
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
         {/* Logo */}
         <div className="animate-fade-in-up mb-6">
-          <img src={clubLogo} alt="SLC ICT Club Logo" className="w-24 h-24 md:w-32 md:h-32 mx-auto drop-shadow-[0_0_30px_hsla(160,60%,40%,0.4)] hover:scale-110 transition-transform duration-500" width={128} height={128} />
+          <img src={clubLogo} alt="SLC ICT Club Logo" className="w-32 h-32 md:w-40 md:h-40 mx-auto drop-shadow-[0_0_40px_hsla(160,60%,40%,0.5)] hover:scale-110 transition-transform duration-500" width={160} height={160} />
         </div>
 
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/5 mb-8 animate-fade-in-up">
@@ -41,8 +41,8 @@ const HeroSection = () => {
           <span className="text-primary-foreground/80 text-sm font-medium tracking-wide">St Lawrence Crown City</span>
         </div>
 
-        <h1 className="font-heading font-bold text-5xl md:text-7xl lg:text-8xl text-primary-foreground leading-[1.05] mb-4 animate-fade-in-up" style={{ animationDelay: "0.15s" }}>
-          <span className="block">ICT Club</span>
+        <h1 className="font-heading font-bold text-5xl md:text-7xl lg:text-8xl leading-[1.05] mb-4 animate-fade-in-up" style={{ animationDelay: "0.15s" }}>
+          <span className="block"><span className="text-primary">I</span><span className="text-glow">C</span><span className="text-accent">T</span> <span className="text-primary-foreground">Club</span></span>
           <span className="shimmer-text text-3xl md:text-4xl lg:text-5xl font-medium mt-2 block">Empowering Students with Technology</span>
         </h1>
 
