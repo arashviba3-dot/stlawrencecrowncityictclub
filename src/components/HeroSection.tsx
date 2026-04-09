@@ -1,42 +1,82 @@
+import { useRef, useState, useEffect, useCallback } from "react";
 import heroVideo from "@/assets/hero-video.mp4.asset.json";
 import heroBanner from "@/assets/hero-banner.jpg";
 import clubLogo from "@/assets/club-logo.png";
-import { ArrowDown, Play } from "lucide-react";
+import { ArrowDown, Play, Volume2, VolumeX } from "lucide-react";
 
 const HeroSection = () => {
-  return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Video background */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        poster={heroBanner}
-        className="absolute inset-0 w-full h-full object-cover"
-      >
-        <source src={heroVideo.url} type="video/mp4" />
-      </video>
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [muted, setMuted] = useState(true);
+  const [scrollY, setScrollY] = useState(0);
 
-      {/* Overlay */}
-      <div className="hero-overlay absolute inset-0" />
+  const handleScroll = useCallback(() => {
+    setScrollY(window.scrollY);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !muted;
+      setMuted(!muted);
+    }
+  };
+
+  const parallaxOffset = scrollY * 0.4;
+
+  return (
+    <section ref={sectionRef} id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Parallax video background */}
+      <div
+        className="absolute inset-0 will-change-transform"
+        style={{ transform: `translateY(${parallaxOffset}px) scale(${1 + scrollY * 0.0003})` }}
+      >
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted={muted}
+          playsInline
+          poster={heroBanner}
+          className="w-full h-full object-cover"
+        >
+          <source src={heroVideo.url} type="video/mp4" />
+        </video>
+      </div>
+
+      {/* Colorful overlay with blue/pink/yellow tints */}
+      <div className="absolute inset-0 hero-overlay" />
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-pop/10 via-transparent to-pink-pop/10 pointer-events-none" />
 
       {/* Animated decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 rounded-full bg-primary/10 blur-[100px] floating" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-secondary/10 blur-[120px] floating" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-20 left-10 w-72 h-72 rounded-full bg-blue-pop/8 blur-[100px] floating" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-pink-pop/8 blur-[120px] floating" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full bg-yellow-pop/6 blur-[80px] floating" style={{ animationDelay: '5s' }} />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-primary-foreground/5 animate-[spin_60s_linear_infinite]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full border border-primary-foreground/[0.03] animate-[spin_90s_linear_infinite_reverse]" />
       </div>
 
+      {/* Sound toggle */}
+      <button
+        onClick={toggleMute}
+        className="absolute top-24 right-6 z-20 w-10 h-10 rounded-full bg-background/30 backdrop-blur-sm border border-primary-foreground/20 flex items-center justify-center text-primary-foreground/70 hover:text-glow hover:bg-background/50 transition-all duration-300"
+        aria-label={muted ? "Unmute video" : "Mute video"}
+      >
+        {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+      </button>
+
       {/* Content */}
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
-        {/* Logo */}
         <div className="animate-fade-in-up mb-6">
           <img src={clubLogo} alt="SLC ICT Club Logo" className="w-32 h-32 md:w-40 md:h-40 mx-auto drop-shadow-[0_0_40px_hsla(160,60%,40%,0.5)] hover:scale-110 transition-transform duration-500" width={160} height={160} />
         </div>
 
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/5 mb-8 animate-fade-in-up">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/5 backdrop-blur-sm mb-8 animate-fade-in-up">
           <Play size={12} className="text-glow fill-current" />
           <span className="text-primary-foreground/80 text-sm font-medium tracking-wide">St Lawrence Crown City</span>
         </div>
@@ -46,7 +86,6 @@ const HeroSection = () => {
           <span className="shimmer-text text-3xl md:text-4xl lg:text-5xl font-medium mt-2 block">Empowering Students with Technology</span>
         </h1>
 
-        {/* Slogan */}
         <p className="text-glow/80 text-base md:text-lg italic font-medium mb-6 animate-fade-in-up tracking-wide" style={{ animationDelay: "0.25s" }}>
           "The world rewards success, not efforts"
         </p>

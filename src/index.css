@@ -51,11 +51,42 @@
     --yellow-pop: 45 90% 55%;
     --pink-pop: 330 70% 60%;
   }
+
+  .light-mode {
+    --background: 120 10% 96%;
+    --foreground: 150 15% 15%;
+    --card: 120 10% 93%;
+    --card-foreground: 150 15% 15%;
+    --popover: 120 10% 93%;
+    --popover-foreground: 150 15% 15%;
+    --primary: 160 60% 35%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 170 45% 28%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 120 8% 88%;
+    --muted-foreground: 150 10% 40%;
+    --accent: 140 50% 38%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 120 8% 82%;
+    --input: 120 8% 82%;
+    --ring: 160 60% 35%;
+    --glow: 150 70% 40%;
+    --deep: 120 10% 92%;
+    --blue-pop: 210 80% 50%;
+    --yellow-pop: 45 90% 45%;
+    --pink-pop: 330 70% 50%;
+  }
 }
 
 @layer base {
   * {
     @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
