@@ -42,7 +42,7 @@ const HeroSection = () => {
         </div>
 
         <h1 className="font-heading font-bold text-5xl md:text-7xl lg:text-8xl leading-[1.05] mb-4 animate-fade-in-up" style={{ animationDelay: "0.15s" }}>
-          <span className="block"><span className="text-primary">I</span><span className="text-glow">C</span><span className="text-accent">T</span> <span className="text-primary-foreground">Club</span></span>
+          <span className="block"><span className="text-blue-pop">I</span><span className="text-yellow-pop">C</span><span className="text-pink-pop">T</span> <span className="text-primary-foreground">Club</span></span>
           <span className="shimmer-text text-3xl md:text-4xl lg:text-5xl font-medium mt-2 block">Empowering Students with Technology</span>
         </h1>
 

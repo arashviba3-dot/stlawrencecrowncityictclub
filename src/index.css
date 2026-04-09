@@ -47,6 +47,9 @@
 
     --glow: 150 70% 50%;
     --deep: 150 18% 6%;
+    --blue-pop: 210 80% 60%;
+    --yellow-pop: 45 90% 55%;
+    --pink-pop: 330 70% 60%;
   }
 }
 
@@ -85,7 +88,7 @@
 @layer utilities {
   .text-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
+    background-image: linear-gradient(135deg, hsl(var(--blue-pop)) 0%, hsl(var(--pink-pop)) 50%, hsl(var(--yellow-pop)) 100%);
   }
 
   .hero-overlay {
