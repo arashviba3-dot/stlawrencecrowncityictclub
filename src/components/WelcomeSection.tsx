@@ -115,14 +115,14 @@ const WelcomeSection = () => {
             <AnimatedSection key={h.title} delay={i * 100}>
               <div className="group relative rounded-2xl border border-border bg-card p-6 hover:border-primary/40 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10 h-full overflow-hidden">
                 <div
-                  className={`absolute -top-10 -right-10 w-32 h-32 rounded-full bg-${h.color}/10 blur-2xl group-hover:bg-${h.color}/20 transition-all duration-500`}
+                  className={`absolute -top-10 -right-10 w-32 h-32 rounded-full ${h.blob} blur-2xl transition-all duration-500`}
                 />
                 <div className="relative">
                   <div className="flex items-center justify-between mb-4">
                     <div
-                      className={`w-12 h-12 rounded-xl bg-${h.color}/15 flex items-center justify-center`}
+                      className={`w-12 h-12 rounded-xl ${h.iconBg} flex items-center justify-center`}
                     >
-                      <h.icon className={`text-${h.color}`} size={22} />
+                      <h.icon className={h.iconColor} size={22} />
                     </div>
                     <span className="text-2xl">{h.emoji}</span>
                   </div>
