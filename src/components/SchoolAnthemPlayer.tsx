@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { Music, Volume2, VolumeX, Pause, Play } from "lucide-react";
+import schoolAnthem from "@/assets/school-anthem.mp3";
 
 /**
  * Floating school anthem player.
- * Replace AUDIO_SRC with the actual St Lawrence Crown City school song file
- * (drop an mp3 in src/assets/ and import it here, or host it and paste the URL).
+ * Plays the St Lawrence Crown City school song.
+ * To replace with the official recording, swap src/assets/school-anthem.mp3.
  */
-const AUDIO_SRC =
-  "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=inspiring-cinematic-ambient-116199.mp3";
+const AUDIO_SRC = schoolAnthem;
 
 const SchoolAnthemPlayer = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
