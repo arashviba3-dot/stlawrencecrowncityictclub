@@ -1,0 +1,163 @@
+import { Globe, Film, Music2, Palette, Sparkles, Rocket } from "lucide-react";
+import AnimatedSection from "./AnimatedSection";
+
+const highlights = [
+  {
+    icon: Globe,
+    title: "Modern Websites",
+    desc: "Clean, responsive, user-friendly designs built with the latest web tech.",
+    color: "blue-pop",
+    emoji: "🌐",
+  },
+  {
+    icon: Film,
+    title: "Video Production",
+    desc: "Creative video content and visual storytelling crafted with professionalism.",
+    color: "pink-pop",
+    emoji: "🎬",
+  },
+  {
+    icon: Music2,
+    title: "Music & Sound",
+    desc: "Audio experiences that blend technology with raw creativity.",
+    color: "yellow-pop",
+    emoji: "🎶",
+  },
+  {
+    icon: Palette,
+    title: "Graphics & Branding",
+    desc: "Digital graphics, branding, and artistic designs that stand out.",
+    color: "primary",
+    emoji: "🎨",
+  },
+];
+
+const WelcomeSection = () => {
+  return (
+    <section id="welcome" className="relative py-20 md:py-28 overflow-hidden bg-background">
+      {/* Decorative blobs */}
+      <div className="absolute top-10 -left-20 w-72 h-72 rounded-full bg-blue-pop/10 blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-10 -right-20 w-96 h-96 rounded-full bg-pink-pop/10 blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full bg-yellow-pop/8 blur-[90px] pointer-events-none" />
+
+      <div className="container mx-auto px-4 relative z-10">
+        <AnimatedSection>
+          <div className="section-header">
+            <span className="section-label inline-flex items-center gap-2">
+              <Sparkles size={14} className="text-yellow-pop" />
+              Welcome
+            </span>
+            <h2 className="section-title">
+              Welcome to <span className="text-gradient">St Lawrence Crown City</span> ICT Club
+              <span className="inline-block ml-2">💻🚀</span>
+            </h2>
+            <p className="section-desc">
+              A dynamic and innovative community of students passionate about technology,
+              creativity, and digital transformation — eager to learn, create, and lead in
+              the modern digital world.
+            </p>
+          </div>
+        </AnimatedSection>
+
+        {/* Story */}
+        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-16">
+          <AnimatedSection delay={100}>
+            <div className="glass-card rounded-2xl p-8 card-hover glow-border h-full">
+              <div className="w-14 h-14 rounded-xl bg-blue-pop/15 flex items-center justify-center mb-5">
+                <Rocket className="text-blue-pop" size={26} />
+              </div>
+              <h3 className="font-heading font-bold text-2xl text-foreground mb-3">
+                Real-World Skills, Real Impact
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                We focus on building real-world skills through practical experience and
+                collaboration. Members design and develop modern websites with clean,
+                responsive, and user-friendly layouts, produce high-quality video content,
+                engaging visual designs, and creative digital media that reflect both
+                talent and professionalism.
+              </p>
+            </div>
+          </AnimatedSection>
+          <AnimatedSection delay={200}>
+            <div className="glass-card rounded-2xl p-8 card-hover glow-border h-full">
+              <div className="w-14 h-14 rounded-xl bg-pink-pop/15 flex items-center justify-center mb-5">
+                <Sparkles className="text-pink-pop" size={26} />
+              </div>
+              <h3 className="font-heading font-bold text-2xl text-foreground mb-3">
+                Where Creativity Meets Technology
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                The club explores music and sound production, combining technology with
+                creativity to craft unique audio experiences. From editing videos to
+                designing graphics and experimenting with new digital tools, our members
+                are constantly pushing their limits and improving their skills.
+              </p>
+            </div>
+          </AnimatedSection>
+        </div>
+
+        {/* Project highlights */}
+        <AnimatedSection>
+          <h3 className="font-heading font-bold text-2xl md:text-3xl text-center text-foreground mb-10">
+            What We <span className="text-gradient">Showcase</span>
+          </h3>
+        </AnimatedSection>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-16">
+          {highlights.map((h, i) => (
+            <AnimatedSection key={h.title} delay={i * 100}>
+              <div className="group relative rounded-2xl border border-border bg-card p-6 hover:border-primary/40 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10 h-full overflow-hidden">
+                <div
+                  className={`absolute -top-10 -right-10 w-32 h-32 rounded-full bg-${h.color}/10 blur-2xl group-hover:bg-${h.color}/20 transition-all duration-500`}
+                />
+                <div className="relative">
+                  <div className="flex items-center justify-between mb-4">
+                    <div
+                      className={`w-12 h-12 rounded-xl bg-${h.color}/15 flex items-center justify-center`}
+                    >
+                      <h.icon className={`text-${h.color}`} size={22} />
+                    </div>
+                    <span className="text-2xl">{h.emoji}</span>
+                  </div>
+                  <h4 className="font-heading font-semibold text-lg text-foreground mb-2">
+                    {h.title}
+                  </h4>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{h.desc}</p>
+                </div>
+              </div>
+            </AnimatedSection>
+          ))}
+        </div>
+
+        {/* Mission CTA */}
+        <AnimatedSection delay={200}>
+          <div className="relative rounded-3xl overflow-hidden max-w-5xl mx-auto p-10 md:p-14 text-center bg-gradient-to-br from-primary/15 via-pink-pop/10 to-yellow-pop/10 border border-primary/30">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_hsl(var(--primary)/0.15),_transparent_60%)] pointer-events-none" />
+            <div className="relative">
+              <p className="text-glow font-heading font-semibold uppercase tracking-[0.25em] text-xs mb-4">
+                Our Mission
+              </p>
+              <h3 className="font-heading font-bold text-2xl md:text-4xl text-foreground mb-5 leading-tight">
+                Empowering students with{" "}
+                <span className="text-gradient">future-ready skills</span> in technology
+                and creativity.
+              </h3>
+              <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto mb-8">
+                Preparing learners to become leaders, innovators, and problem-solvers in a
+                rapidly evolving world. Join us and be part of a movement shaping the
+                future through technology, creativity, and innovation 🔥
+              </p>
+              <a
+                href="#contact"
+                className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-primary text-primary-foreground font-heading font-semibold text-lg hover:bg-primary/90 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 hover:scale-105"
+              >
+                Join the Club
+              </a>
+            </div>
+          </div>
+        </AnimatedSection>
+      </div>
+    </section>
+  );
+};
+
+export default WelcomeSection;
