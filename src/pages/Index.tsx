@@ -8,6 +8,7 @@ import EventsCarousel from "@/components/EventsCarousel";
 import TeamSection from "@/components/TeamSection";
 import VideoGallery from "@/components/VideoGallery";
 import ResourcesSection from "@/components/ResourcesSection";
+import FacilitiesSection from "@/components/FacilitiesSection";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
@@ -24,6 +25,7 @@ const Index = () => {
       <ProjectsSection />
       <EventsCarousel />
       <TeamSection />
+      <FacilitiesSection />
       <VideoGallery />
       <ResourcesSection />
       <NewsletterSignup />
