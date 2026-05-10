@@ -103,5 +103,9 @@ const ResourcesSection = () => {
             </div>
           </div>
         </AnimatedSection>
+      </div>
+    </section>
+  );
+};
 
 export default ResourcesSection;
