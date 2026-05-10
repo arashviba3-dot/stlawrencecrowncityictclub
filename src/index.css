@@ -50,6 +50,9 @@
     --blue-pop: 210 80% 60%;
     --yellow-pop: 45 90% 55%;
     --pink-pop: 330 70% 60%;
+    --purple-pop: 270 75% 65%;
+    --orange-pop: 22 92% 58%;
+    --teal-pop: 175 70% 50%;
   }
 
   .light-mode {
@@ -77,6 +80,9 @@
     --blue-pop: 210 80% 50%;
     --yellow-pop: 45 90% 45%;
     --pink-pop: 330 70% 50%;
+    --purple-pop: 270 75% 55%;
+    --orange-pop: 22 92% 50%;
+    --teal-pop: 175 70% 40%;
   }
 }
 

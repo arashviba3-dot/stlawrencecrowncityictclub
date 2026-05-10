@@ -55,6 +55,9 @@ export default {
         "blue-pop": "hsl(var(--blue-pop))",
         "yellow-pop": "hsl(var(--yellow-pop))",
         "pink-pop": "hsl(var(--pink-pop))",
+        "purple-pop": "hsl(var(--purple-pop))",
+        "orange-pop": "hsl(var(--orange-pop))",
+        "teal-pop": "hsl(var(--teal-pop))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
