@@ -1,5 +1,6 @@
-import { BookOpen, Code2, MonitorSmartphone, Lightbulb, ExternalLink } from "lucide-react";
+import { BookOpen, Code2, MonitorSmartphone, Lightbulb, ExternalLink, FileText, Download, GraduationCap } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
+import successImg from "@/assets/student-success.jpg";
 
 const resources = [
   { icon: Code2, title: "Scratch Programming", desc: "Free visual coding platform perfect for beginners to learn programming logic and game development.", link: "https://scratch.mit.edu", color: "from-orange-400 to-yellow-500" },
