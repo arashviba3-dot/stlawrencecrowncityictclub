@@ -1,6 +1,7 @@
-import { Globe, Film, Music2, Palette, Sparkles, Rocket, ShieldCheck } from "lucide-react";
+import { Globe, Film, Music2, Palette, Sparkles, Rocket, ShieldCheck, Users } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import schoolCrest from "@/assets/school-crest.jpg";
+import studentsUniform from "@/assets/students-uniform.jpg";
 
 const highlights = [
   {
