@@ -1,5 +1,6 @@
-import { Globe, Film, Music2, Palette, Sparkles, Rocket } from "lucide-react";
+import { Globe, Film, Music2, Palette, Sparkles, Rocket, ShieldCheck } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
+import schoolCrest from "@/assets/school-crest.jpg";
 
 const highlights = [
   {
@@ -67,7 +68,39 @@ const WelcomeSection = () => {
           </div>
         </AnimatedSection>
 
-        {/* Story */}
+        {/* School crest spotlight */}
+        <AnimatedSection delay={50}>
+          <div className="max-w-5xl mx-auto mb-14 rounded-3xl overflow-hidden border border-primary/30 bg-gradient-to-br from-blue-pop/10 via-yellow-pop/5 to-pink-pop/10 grid md:grid-cols-[260px_1fr] gap-0 items-center">
+            <div className="relative flex items-center justify-center p-8 bg-gradient-to-br from-background to-background/60">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_hsl(var(--yellow-pop)/0.18),_transparent_70%)]" />
+              <img
+                src={schoolCrest}
+                alt="St Lawrence Schools and Colleges crest"
+                width={224}
+                height={224}
+                className="relative w-44 h-44 md:w-52 md:h-52 object-contain drop-shadow-[0_0_40px_hsla(45,90%,55%,0.45)] hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="p-8 md:p-10">
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-pop/15 border border-yellow-pop/40 mb-4">
+                <ShieldCheck size={14} className="text-yellow-pop" />
+                <span className="text-xs font-heading font-semibold uppercase tracking-wider text-foreground">
+                  St Lawrence Schools & Colleges
+                </span>
+              </span>
+              <h3 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-3 leading-tight">
+                <span className="text-blue-pop">For</span>{" "}
+                <span className="text-yellow-pop">a Bright</span>{" "}
+                <span className="text-pink-pop">Future</span>
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Proudly part of the St Lawrence family — a heritage of excellence, character,
+                and innovation. Our ICT Club carries that legacy into the digital age.
+              </p>
+            </div>
+          </div>
+        </AnimatedSection>
+
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-16">
           <AnimatedSection delay={100}>
             <div className="glass-card rounded-2xl p-8 card-hover glow-border h-full">
