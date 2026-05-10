@@ -102,6 +102,37 @@ const WelcomeSection = () => {
           </div>
         </AnimatedSection>
 
+        {/* Students spotlight */}
+        <AnimatedSection delay={80}>
+          <div className="max-w-5xl mx-auto mb-14 rounded-3xl overflow-hidden border border-purple-pop/30 bg-gradient-to-br from-purple-pop/10 via-blue-pop/5 to-orange-pop/10 grid md:grid-cols-2 gap-0 items-stretch">
+            <div className="relative overflow-hidden min-h-[280px] md:min-h-[380px]">
+              <img
+                src={studentsUniform}
+                alt="St Lawrence Crown City students in uniform"
+                className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-tr from-background/70 via-transparent to-transparent" />
+            </div>
+            <div className="p-8 md:p-10 flex flex-col justify-center">
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-pop/15 border border-purple-pop/40 mb-4 self-start">
+                <Users size={14} className="text-purple-pop" />
+                <span className="text-xs font-heading font-semibold uppercase tracking-wider text-foreground">
+                  Our Crown City Family
+                </span>
+              </span>
+              <h3 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-3 leading-tight">
+                Proud. <span className="text-orange-pop">Sharp.</span> <span className="text-teal-pop">Future-ready.</span>
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Students of St Lawrence Crown City — confident, smart, and disciplined.
+                Behind every line of code and every project is a young mind ready to lead
+                the next digital generation.
+              </p>
+            </div>
+          </div>
+        </AnimatedSection>
+
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-16">
           <AnimatedSection delay={100}>
             <div className="glass-card rounded-2xl p-8 card-hover glow-border h-full">
