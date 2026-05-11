@@ -20,6 +20,27 @@ const navLinks = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const { user, isAdmin } = useAuth();
+
+  const AccountButton = ({ onClick }: { onClick?: () => void }) =>
+    user ? (
+      <Link
+        to="/profile"
+        onClick={onClick}
+        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/15 border border-primary/40 text-sm font-medium text-foreground hover:bg-primary/25 transition-colors"
+      >
+        <UserIcon size={14} />
+        {isAdmin ? "Admin" : "Profile"}
+      </Link>
+    ) : (
+      <Link
+        to="/auth"
+        onClick={onClick}
+        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors"
+      >
+        <LogIn size={14} /> Login
+      </Link>
+    );
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-primary/20">
@@ -46,6 +67,7 @@ const Navbar = () => {
             ))}
           </ul>
           <ThemeToggle />
+          <AccountButton />
         </div>
 
         {/* Mobile */}
@@ -76,6 +98,9 @@ const Navbar = () => {
               </li>
             ))}
           </ul>
+          <div className="flex justify-center pb-6">
+            <AccountButton onClick={() => setOpen(false)} />
+          </div>
         </div>
       )}
     </nav>
