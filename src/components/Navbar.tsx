@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Menu, X, LogIn, User as UserIcon } from "lucide-react";
 import clubLogo from "@/assets/club-logo.png";
 import ThemeToggle from "./ThemeToggle";
+import { useAuth } from "@/contexts/AuthContext";
 
 const navLinks = [
   { label: "Home", href: "#home" },
