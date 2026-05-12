@@ -24,14 +24,23 @@ const Navbar = () => {
 
   const AccountButton = ({ onClick }: { onClick?: () => void }) =>
     user ? (
-      <Link
-        to="/profile"
-        onClick={onClick}
-        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/15 border border-primary/40 text-sm font-medium text-foreground hover:bg-primary/25 transition-colors"
-      >
-        <UserIcon size={14} />
-        {isAdmin ? "Admin" : "Profile"}
-      </Link>
+      <div className="flex items-center gap-2">
+        <Link
+          to="/dashboard"
+          onClick={onClick}
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors shadow-[0_0_16px_hsl(var(--primary)/0.4)]"
+        >
+          Dashboard
+        </Link>
+        <Link
+          to="/profile"
+          onClick={onClick}
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/15 border border-primary/40 text-sm font-medium text-foreground hover:bg-primary/25 transition-colors"
+        >
+          <UserIcon size={14} />
+          {isAdmin ? "Admin" : "Profile"}
+        </Link>
+      </div>
     ) : (
       <Link
         to="/auth"
