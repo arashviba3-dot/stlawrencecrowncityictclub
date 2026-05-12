@@ -80,7 +80,10 @@ const Payments = () => {
     const reference = `SLC-${Date.now().toString(36).toUpperCase()}`;
     const { data, error } = await supabase.from("payments").insert({
       user_id: user.id,
-      ...parsed.data,
+      full_name: parsed.data.full_name,
+      student_id: parsed.data.student_id,
+      phone: parsed.data.phone,
+      method: parsed.data.method,
       base_fee: baseFee,
       late_fee: lateFee,
       total,
