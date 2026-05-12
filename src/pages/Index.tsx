@@ -14,12 +14,14 @@ import NewsletterSignup from "@/components/NewsletterSignup";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import SchoolAnthemPlayer from "@/components/SchoolAnthemPlayer";
+import PhotoSlider from "@/components/PhotoSlider";
 
 const Index = () => {
   return (
     <div className="min-h-screen scroll-smooth">
       <Navbar />
       <HeroSection />
+      <PhotoSlider />
       <WelcomeSection />
       <AboutSection />
       <ActivitiesSection />
