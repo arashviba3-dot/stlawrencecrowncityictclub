@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      payments: {
+        Row: {
+          base_fee: number
+          created_at: string
+          full_name: string
+          id: string
+          late_fee: number
+          method: string
+          paid_at: string | null
+          phone: string
+          reference: string
+          status: string
+          student_id: string
+          total: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          base_fee: number
+          created_at?: string
+          full_name: string
+          id?: string
+          late_fee?: number
+          method: string
+          paid_at?: string | null
+          phone: string
+          reference: string
+          status?: string
+          student_id: string
+          total: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          base_fee?: number
+          created_at?: string
+          full_name?: string
+          id?: string
+          late_fee?: number
+          method?: string
+          paid_at?: string | null
+          phone?: string
+          reference?: string
+          status?: string
+          student_id?: string
+          total?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
