@@ -5,7 +5,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
-import { Loader2, ShieldCheck, ShieldOff, Users } from "lucide-react";
+import { Loader2, ShieldCheck, ShieldOff, Users, Wallet, Search, Check, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 type Member = {
   id: string;
@@ -17,23 +18,40 @@ type Member = {
   is_admin: boolean;
 };
 
+type Payment = {
+  id: string; user_id: string; full_name: string; student_id: string; phone: string;
+  method: string; base_fee: number; late_fee: number; total: number; reference: string;
+  status: string; created_at: string;
+};
+
 const Admin = () => {
   const { user, isAdmin, loading } = useAuth();
   const [members, setMembers] = useState<Member[]>([]);
+  const [payments, setPayments] = useState<Payment[]>([]);
+  const [search, setSearch] = useState("");
   const [fetching, setFetching] = useState(true);
 
   const load = async () => {
     setFetching(true);
-    const [{ data: profs }, { data: roles }] = await Promise.all([
+    const [{ data: profs }, { data: roles }, { data: pays }] = await Promise.all([
       supabase.from("profiles").select("*").order("created_at", { ascending: false }),
       supabase.from("user_roles").select("user_id, role"),
+      supabase.from("payments").select("*").order("created_at", { ascending: false }),
     ]);
     const adminSet = new Set((roles || []).filter(r => r.role === "admin").map(r => r.user_id));
     setMembers((profs || []).map(p => ({ ...p, is_admin: adminSet.has(p.id) }) as Member));
+    setPayments((pays as Payment[]) || []);
     setFetching(false);
   };
 
   useEffect(() => { if (isAdmin) load(); }, [isAdmin]);
+
+  const setStatus = async (p: Payment, status: "approved" | "rejected") => {
+    const { error } = await supabase.from("payments").update({ status, paid_at: status === "approved" ? new Date().toISOString() : null }).eq("id", p.id);
+    if (error) return toast({ title: "Failed", description: error.message, variant: "destructive" });
+    toast({ title: `Payment ${status}` });
+    load();
+  };
 
   if (loading) return <div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin" /></div>;
   if (!user) return <Navigate to="/auth" replace />;
