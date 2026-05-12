@@ -139,6 +139,75 @@ const Admin = () => {
         <p className="text-xs text-muted-foreground mt-4">
           Tip: To make the very first admin, sign up, then open Backend → user_roles → set your role to "admin".
         </p>
+
+        {/* Payments management */}
+        <div className="flex items-center gap-3 mt-12 mb-4">
+          <Wallet className="text-purple-pop" />
+          <h2 className="font-heading font-bold text-2xl">Payments</h2>
+          <span className="ml-auto text-sm text-muted-foreground">
+            {payments.filter(p => p.status === "pending").length} pending · {payments.length} total
+          </span>
+        </div>
+        <div className="relative mb-3 max-w-sm">
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+          <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search by name or student ID" className="pl-9" />
+        </div>
+        <div className="glass-card rounded-2xl border border-primary/20 overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-muted/50 text-left">
+              <tr>
+                <th className="p-3">Student</th>
+                <th className="p-3 hidden md:table-cell">Reference</th>
+                <th className="p-3">Method</th>
+                <th className="p-3">Total</th>
+                <th className="p-3 hidden md:table-cell">Date</th>
+                <th className="p-3">Status</th>
+                <th className="p-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {payments
+                .filter(p => !search || p.full_name.toLowerCase().includes(search.toLowerCase()) || p.student_id.toLowerCase().includes(search.toLowerCase()))
+                .map(p => (
+                <tr key={p.id} className="border-t border-border hover:bg-muted/20">
+                  <td className="p-3">
+                    <div className="font-medium">{p.full_name}</div>
+                    <div className="text-xs text-muted-foreground">{p.student_id} · {p.phone}</div>
+                  </td>
+                  <td className="p-3 hidden md:table-cell font-mono text-xs">{p.reference}</td>
+                  <td className="p-3 uppercase text-xs">{p.method}</td>
+                  <td className="p-3 font-semibold">
+                    {p.total.toLocaleString()} UGX
+                    {p.late_fee > 0 && <div className="text-[10px] text-orange-pop">+late</div>}
+                  </td>
+                  <td className="p-3 hidden md:table-cell text-muted-foreground text-xs">{new Date(p.created_at).toLocaleDateString()}</td>
+                  <td className="p-3">
+                    <span className={`text-xs px-2 py-1 rounded-full ${
+                      p.status === "approved" ? "bg-emerald-500/20 text-emerald-400" :
+                      p.status === "rejected" ? "bg-destructive/20 text-destructive" :
+                      "bg-yellow-pop/20 text-yellow-pop"
+                    }`}>{p.status}</span>
+                  </td>
+                  <td className="p-3 text-right">
+                    {p.status === "pending" && (
+                      <div className="flex justify-end gap-2">
+                        <Button size="sm" variant="default" onClick={() => setStatus(p, "approved")}>
+                          <Check size={14} />
+                        </Button>
+                        <Button size="sm" variant="outline" onClick={() => setStatus(p, "rejected")}>
+                          <X size={14} />
+                        </Button>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+              {payments.length === 0 && (
+                <tr><td colSpan={7} className="p-8 text-center text-muted-foreground">No payments yet.</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
