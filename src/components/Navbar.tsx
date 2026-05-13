@@ -15,6 +15,8 @@ const navLinks = [
   { label: "Facilities", href: "#facilities" },
   { label: "Resources", href: "#resources" },
   { label: "Games", href: "#games" },
+  { label: "Music", href: "/music" },
+  { label: "Chat", href: "/chat" },
   { label: "Contact", href: "#contact" },
 ];
 

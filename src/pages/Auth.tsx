@@ -29,7 +29,7 @@ const Auth = () => {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    if (!loading && user) navigate("/", { replace: true });
+    if (!loading && user) navigate("/dashboard", { replace: true });
   }, [user, loading, navigate]);
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -76,7 +76,7 @@ const Auth = () => {
     if (error) {
       toast({ title: "Login failed", description: error.message, variant: "destructive" });
     } else {
-      navigate("/", { replace: true });
+      navigate("/dashboard", { replace: true });
     }
   };
 
