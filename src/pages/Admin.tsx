@@ -172,7 +172,78 @@ const Admin = () => {
           Tip: To make the very first admin, sign up, then open Backend → user_roles → set your role to "admin".
         </p>
 
-        {/* Payments management */}
+        {/* Premium Activation Codes */}
+        <div className="flex items-center gap-3 mt-12 mb-4">
+          <Crown className="text-primary" />
+          <h2 className="font-heading font-bold text-2xl">Premium Activation Codes</h2>
+          <span className="ml-auto text-sm text-muted-foreground">
+            {codes.filter(c => !c.redeemed_by).length} unused · {codes.length} total
+          </span>
+        </div>
+
+        <div className="glass-card rounded-2xl border border-primary/20 p-4 mb-3">
+          <div className="flex flex-col md:flex-row gap-2 md:items-end">
+            <div className="flex-1">
+              <label className="text-xs text-muted-foreground">Note (optional — e.g. student name)</label>
+              <Input value={codeNote} onChange={(e) => setCodeNote(e.target.value)} placeholder="For: John Doe" />
+            </div>
+            <div className="w-full md:w-32">
+              <label className="text-xs text-muted-foreground">Duration (days)</label>
+              <Input type="number" min={1} max={365} value={codeDays}
+                onChange={(e) => setCodeDays(Math.max(1, parseInt(e.target.value || "30")))} />
+            </div>
+            <Button onClick={generateCode} className="shrink-0">
+              <KeyRound size={14} className="mr-1" /> Generate code
+            </Button>
+          </div>
+        </div>
+
+        <div className="glass-card rounded-2xl border border-primary/20 overflow-x-auto mb-4">
+          <table className="w-full text-sm">
+            <thead className="bg-muted/50 text-left">
+              <tr>
+                <th className="p-3">Code</th>
+                <th className="p-3 hidden md:table-cell">Note</th>
+                <th className="p-3">Days</th>
+                <th className="p-3">Status</th>
+                <th className="p-3 hidden md:table-cell">Created</th>
+                <th className="p-3 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {codes.map(c => (
+                <tr key={c.id} className="border-t border-border hover:bg-muted/20">
+                  <td className="p-3 font-mono text-xs font-bold tracking-wider">{c.code}</td>
+                  <td className="p-3 hidden md:table-cell text-muted-foreground">{c.note || "—"}</td>
+                  <td className="p-3">{c.duration_days}d</td>
+                  <td className="p-3">
+                    {c.redeemed_by ? (
+                      <span className="text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground">Redeemed</span>
+                    ) : (
+                      <span className="text-xs px-2 py-1 rounded-full bg-primary/20 text-primary">Available</span>
+                    )}
+                  </td>
+                  <td className="p-3 hidden md:table-cell text-muted-foreground text-xs">
+                    {new Date(c.created_at).toLocaleDateString()}
+                  </td>
+                  <td className="p-3 text-right">
+                    {!c.redeemed_by && (
+                      <Button size="sm" variant="outline" onClick={() => copyCode(c.code)}>
+                        <Copy size={14} className="mr-1" /> Copy
+                      </Button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+              {codes.length === 0 && (
+                <tr><td colSpan={6} className="p-8 text-center text-muted-foreground">
+                  No codes yet. Generate one above and share it with a student after they pay.
+                </td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
         <div className="flex items-center gap-3 mt-12 mb-4">
           <Wallet className="text-purple-pop" />
           <h2 className="font-heading font-bold text-2xl">Payments</h2>
