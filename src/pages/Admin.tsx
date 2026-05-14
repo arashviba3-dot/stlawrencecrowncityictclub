@@ -50,7 +50,7 @@ const Admin = () => {
     const adminSet = new Set((roles || []).filter(r => r.role === "admin").map(r => r.user_id));
     setMembers((profs || []).map(p => ({ ...p, is_admin: adminSet.has(p.id) }) as Member));
     setPayments((pays as Payment[]) || []);
-    setCodes((cds as ActivationCode[]) || []);
+    setCodes(((cds as unknown) as ActivationCode[]) || []);
     setFetching(false);
   };
 
