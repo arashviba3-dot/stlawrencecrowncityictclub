@@ -41,18 +41,42 @@ const Admin = () => {
 
   const load = async () => {
     setFetching(true);
-    const [{ data: profs }, { data: roles }, { data: pays }] = await Promise.all([
+    const [{ data: profs }, { data: roles }, { data: pays }, { data: cds }] = await Promise.all([
       supabase.from("profiles").select("*").order("created_at", { ascending: false }),
       supabase.from("user_roles").select("user_id, role"),
       supabase.from("payments").select("*").order("created_at", { ascending: false }),
+      supabase.from("activation_codes" as any).select("*").order("created_at", { ascending: false }),
     ]);
     const adminSet = new Set((roles || []).filter(r => r.role === "admin").map(r => r.user_id));
     setMembers((profs || []).map(p => ({ ...p, is_admin: adminSet.has(p.id) }) as Member));
     setPayments((pays as Payment[]) || []);
+    setCodes((cds as ActivationCode[]) || []);
     setFetching(false);
   };
 
   useEffect(() => { if (isAdmin) load(); }, [isAdmin]);
+
+  const generateCode = async () => {
+    const random = Array.from({ length: 10 }, () =>
+      "ABCDEFGHJKMNPQRSTUVWXYZ23456789"[Math.floor(Math.random() * 31)]
+    ).join("");
+    const newCode = `SLC-${random}`;
+    const { error } = await supabase.from("activation_codes" as any).insert({
+      code: newCode,
+      duration_days: codeDays,
+      created_by: user!.id,
+      note: codeNote || null,
+    });
+    if (error) return toast({ title: "Failed", description: error.message, variant: "destructive" });
+    toast({ title: "Code generated", description: newCode });
+    setCodeNote("");
+    load();
+  };
+
+  const copyCode = (c: string) => {
+    navigator.clipboard.writeText(c);
+    toast({ title: "Copied", description: c });
+  };
 
   const setStatus = async (p: Payment, status: "approved" | "rejected") => {
     const { error } = await supabase.from("payments").update({ status, paid_at: status === "approved" ? new Date().toISOString() : null }).eq("id", p.id);
