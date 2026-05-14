@@ -24,6 +24,11 @@ type Payment = {
   status: string; created_at: string;
 };
 
+type ActivationCode = {
+  id: string; code: string; duration_days: number; created_at: string;
+  redeemed_by: string | null; redeemed_at: string | null; note: string | null;
+};
+
 const Admin = () => {
   const { user, isAdmin, loading } = useAuth();
   const [members, setMembers] = useState<Member[]>([]);
