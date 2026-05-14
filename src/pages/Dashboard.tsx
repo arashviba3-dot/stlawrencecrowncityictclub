@@ -5,8 +5,12 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   LayoutDashboard, BookOpen, Newspaper, Calendar, Gamepad2, MessageSquare,
   Code2, FolderKanban, Trophy, Settings, LogOut, Search, Bell, Wallet,
-  Sparkles, Rocket, Zap, GraduationCap, Users, Activity,
+  Sparkles, Rocket, Zap, GraduationCap, Users, Activity, Crown, KeyRound, ShieldCheck,
 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
+import { Progress } from "@/components/ui/progress";
 import clubLogo from "@/assets/club-logo.png";
 import p1 from "@/assets/student-photo-1.jpg";
 import p3 from "@/assets/student-photo-3.jpg";
