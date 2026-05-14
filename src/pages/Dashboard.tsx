@@ -58,11 +58,19 @@ const projects = [
 ];
 
 const Dashboard = () => {
-  const { user, profile, isAdmin, loading, signOut } = useAuth();
+  const { user, profile, isAdmin, loading, signOut, refreshProfile } = useAuth();
   const navigate = useNavigate();
   const [memberCount, setMemberCount] = useState<number | null>(null);
+  const [onlineCount, setOnlineCount] = useState<number>(1);
   const [openMobile, setOpenMobile] = useState(false);
   const [quote] = useState(quotes[Math.floor(Math.random() * quotes.length)]);
+  const [code, setCode] = useState("");
+  const [redeeming, setRedeeming] = useState(false);
+
+  const isPremium = !!(profile as any)?.is_premium;
+  const premiumExpires = (profile as any)?.premium_expires_at as string | null | undefined;
+  const xp = ((profile as any)?.xp as number) ?? 0;
+  const xpForNext = 1000;
 
   useEffect(() => {
     if (!loading && !user) navigate("/auth", { replace: true });
@@ -71,6 +79,35 @@ const Dashboard = () => {
   useEffect(() => {
     supabase.from("profiles").select("id", { count: "exact", head: true }).then(({ count }) => setMemberCount(count ?? 0));
   }, []);
+
+  // Realtime presence: counts online dashboard users
+  useEffect(() => {
+    if (!user) return;
+    const channel = supabase.channel("dashboard-presence", { config: { presence: { key: user.id } } });
+    channel
+      .on("presence", { event: "sync" }, () => {
+        setOnlineCount(Object.keys(channel.presenceState()).length);
+      })
+      .subscribe(async (status) => {
+        if (status === "SUBSCRIBED") await channel.track({ online_at: new Date().toISOString() });
+      });
+    return () => { supabase.removeChannel(channel); };
+  }, [user]);
+
+  const redeemCode = async () => {
+    if (!code.trim()) return;
+    setRedeeming(true);
+    const { data, error } = await supabase.rpc("redeem_activation_code" as any, { _code: code.trim() });
+    setRedeeming(false);
+    const res = data as { success?: boolean; error?: string } | null;
+    if (error || !res?.success) {
+      toast({ title: "Activation failed", description: res?.error ?? error?.message ?? "Invalid code", variant: "destructive" });
+      return;
+    }
+    toast({ title: "Premium unlocked!", description: "Welcome to Premium. Enjoy exclusive access." });
+    setCode("");
+    await refreshProfile();
+  };
 
   const firstName = profile?.full_name?.split(" ")[0] ?? "Student";
 
