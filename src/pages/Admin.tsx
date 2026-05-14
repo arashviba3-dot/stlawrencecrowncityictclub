@@ -5,7 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
-import { Loader2, ShieldCheck, ShieldOff, Users, Wallet, Search, Check, X } from "lucide-react";
+import { Loader2, ShieldCheck, ShieldOff, Users, Wallet, Search, Check, X, KeyRound, Copy, Crown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
 type Member = {
