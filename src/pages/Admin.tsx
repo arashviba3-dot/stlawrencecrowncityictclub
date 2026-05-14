@@ -35,6 +35,9 @@ const Admin = () => {
   const [payments, setPayments] = useState<Payment[]>([]);
   const [search, setSearch] = useState("");
   const [fetching, setFetching] = useState(true);
+  const [codes, setCodes] = useState<ActivationCode[]>([]);
+  const [codeDays, setCodeDays] = useState(30);
+  const [codeNote, setCodeNote] = useState("");
 
   const load = async () => {
     setFetching(true);
