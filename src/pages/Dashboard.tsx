@@ -5,8 +5,12 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   LayoutDashboard, BookOpen, Newspaper, Calendar, Gamepad2, MessageSquare,
   Code2, FolderKanban, Trophy, Settings, LogOut, Search, Bell, Wallet,
-  Sparkles, Rocket, Zap, GraduationCap, Users, Activity,
+  Sparkles, Rocket, Zap, GraduationCap, Users, Activity, Crown, KeyRound, ShieldCheck,
 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
+import { Progress } from "@/components/ui/progress";
 import clubLogo from "@/assets/club-logo.png";
 import p1 from "@/assets/student-photo-1.jpg";
 import p3 from "@/assets/student-photo-3.jpg";
@@ -54,11 +58,19 @@ const projects = [
 ];
 
 const Dashboard = () => {
-  const { user, profile, isAdmin, loading, signOut } = useAuth();
+  const { user, profile, isAdmin, loading, signOut, refreshProfile } = useAuth();
   const navigate = useNavigate();
   const [memberCount, setMemberCount] = useState<number | null>(null);
+  const [onlineCount, setOnlineCount] = useState<number>(1);
   const [openMobile, setOpenMobile] = useState(false);
   const [quote] = useState(quotes[Math.floor(Math.random() * quotes.length)]);
+  const [code, setCode] = useState("");
+  const [redeeming, setRedeeming] = useState(false);
+
+  const isPremium = !!(profile as any)?.is_premium;
+  const premiumExpires = (profile as any)?.premium_expires_at as string | null | undefined;
+  const xp = ((profile as any)?.xp as number) ?? 0;
+  const xpForNext = 1000;
 
   useEffect(() => {
     if (!loading && !user) navigate("/auth", { replace: true });
@@ -67,6 +79,35 @@ const Dashboard = () => {
   useEffect(() => {
     supabase.from("profiles").select("id", { count: "exact", head: true }).then(({ count }) => setMemberCount(count ?? 0));
   }, []);
+
+  // Realtime presence: counts online dashboard users
+  useEffect(() => {
+    if (!user) return;
+    const channel = supabase.channel("dashboard-presence", { config: { presence: { key: user.id } } });
+    channel
+      .on("presence", { event: "sync" }, () => {
+        setOnlineCount(Object.keys(channel.presenceState()).length);
+      })
+      .subscribe(async (status) => {
+        if (status === "SUBSCRIBED") await channel.track({ online_at: new Date().toISOString() });
+      });
+    return () => { supabase.removeChannel(channel); };
+  }, [user]);
+
+  const redeemCode = async () => {
+    if (!code.trim()) return;
+    setRedeeming(true);
+    const { data, error } = await supabase.rpc("redeem_activation_code" as any, { _code: code.trim() });
+    setRedeeming(false);
+    const res = data as { success?: boolean; error?: string } | null;
+    if (error || !res?.success) {
+      toast({ title: "Activation failed", description: res?.error ?? error?.message ?? "Invalid code", variant: "destructive" });
+      return;
+    }
+    toast({ title: "Premium unlocked!", description: "Welcome to Premium. Enjoy exclusive access." });
+    setCode("");
+    await refreshProfile();
+  };
 
   const firstName = profile?.full_name?.split(" ")[0] ?? "Student";
 
@@ -171,32 +212,112 @@ const Dashboard = () => {
             <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full blur-3xl" style={{ background: "hsl(var(--purple-pop) / 0.3)" }} />
             <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full blur-3xl" style={{ background: "hsl(var(--blue-pop) / 0.25)" }} />
             <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
-              <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-primary mb-2">Welcome back</p>
-                <h1 className="font-heading font-bold text-3xl md:text-5xl">
-                  Hello, <span className="text-gradient">{firstName}</span> 👋
-                </h1>
-                <p className="text-muted-foreground mt-3 max-w-xl">
-                  {profile?.class_name ? `${profile.class_name} • ` : ""}Crown City ICT Club member portal.
-                  Build, learn, and ship today.
-                </p>
-                <div className="flex flex-wrap gap-3 mt-5">
-                  <Link to="/payments" className="px-5 py-2.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm hover:scale-105 transition shadow-[0_0_24px_hsl(var(--primary)/0.5)]">
-                    Pay membership
-                  </Link>
-                  <a href="#challenge" className="px-5 py-2.5 rounded-full glass-card border border-primary/30 text-sm font-semibold hover:border-primary transition">
-                    Today's challenge
-                  </a>
+              <div className="flex items-center gap-5 md:gap-7">
+                <div className="relative shrink-0">
+                  <div className="absolute inset-0 rounded-full blur-xl opacity-70"
+                    style={{ background: isPremium ? "hsl(var(--primary))" : "hsl(var(--purple-pop))" }} />
+                  <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full p-[3px]"
+                    style={{ background: isPremium
+                      ? "conic-gradient(from 0deg, hsl(var(--primary)), hsl(var(--yellow-pop)), hsl(var(--primary)))"
+                      : "conic-gradient(from 0deg, hsl(var(--primary)), hsl(var(--purple-pop)), hsl(var(--primary)))" }}>
+                    {profile?.avatar_url ? (
+                      <img src={profile.avatar_url} alt="" className="w-full h-full rounded-full object-cover bg-background" />
+                    ) : (
+                      <div className="w-full h-full rounded-full bg-gradient-to-br from-primary to-purple-pop grid place-items-center text-3xl font-heading font-bold">
+                        {firstName[0]}
+                      </div>
+                    )}
+                  </div>
+                  <span className="absolute bottom-1 right-1 w-4 h-4 rounded-full border-2 border-background"
+                    style={{ background: "hsl(var(--primary))", boxShadow: "0 0 10px hsl(var(--primary))" }} />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs uppercase tracking-[0.3em] text-primary mb-1">Welcome back to SSLCC ICT Club</p>
+                  <h1 className="font-heading font-bold text-2xl md:text-4xl truncate">
+                    Hello, <span className="text-gradient">{firstName}</span>
+                  </h1>
+                  <div className="flex flex-wrap items-center gap-2 mt-2">
+                    {isAdmin && (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md border"
+                        style={{ background: "hsl(var(--pink-pop) / 0.15)", color: "hsl(var(--pink-pop))", borderColor: "hsl(var(--pink-pop) / 0.4)" }}>
+                        <ShieldCheck size={12} /> Admin
+                      </span>
+                    )}
+                    {isPremium ? (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md border"
+                        style={{ background: "hsl(var(--primary) / 0.15)", color: "hsl(var(--primary))", borderColor: "hsl(var(--primary) / 0.5)", boxShadow: "0 0 12px hsl(var(--primary) / 0.4)" }}>
+                        <Crown size={12} /> Premium
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md border border-muted-foreground/30 text-muted-foreground">
+                        Free Member
+                      </span>
+                    )}
+                    {profile?.class_name && (
+                      <span className="text-xs text-muted-foreground">• {profile.class_name}</span>
+                    )}
+                  </div>
+                  <div className="mt-3 max-w-xs">
+                    <div className="flex items-center justify-between text-[11px] text-muted-foreground mb-1">
+                      <span className="flex items-center gap-1"><Zap size={11} className="text-purple-pop" /> {xp} XP</span>
+                      <span>{xpForNext} to next rank</span>
+                    </div>
+                    <Progress value={Math.min(100, (xp / xpForNext) * 100)} className="h-2" />
+                  </div>
+                  <div className="flex flex-wrap gap-3 mt-4">
+                    {!isPremium && (
+                      <Link to="/payments" className="px-5 py-2.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm hover:scale-105 transition shadow-[0_0_24px_hsl(var(--primary)/0.5)]">
+                        <Crown size={14} className="inline mr-1" /> Upgrade to Premium
+                      </Link>
+                    )}
+                    <a href="#challenge" className="px-5 py-2.5 rounded-full glass-card border border-primary/30 text-sm font-semibold hover:border-primary transition">
+                      Today's challenge
+                    </a>
+                  </div>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3 md:w-80">
                 <Stat icon={Users} label="Members" value={memberCount ?? "—"} color="blue-pop" />
+                <Stat icon={Activity} label="Online now" value={onlineCount} color="primary" />
                 <Stat icon={Trophy} label="Your rank" value="#7" color="yellow-pop" />
-                <Stat icon={Activity} label="Streak" value="5d" color="pink-pop" />
-                <Stat icon={Zap} label="XP" value="1,240" color="purple-pop" />
+                <Stat icon={Zap} label="XP" value={xp} color="purple-pop" />
               </div>
             </div>
           </section>
+
+          {!isPremium && (
+            <section className="glass-card rounded-2xl p-5 border border-primary/30"
+              style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.08), hsl(var(--purple-pop) / 0.08))" }}>
+              <div className="flex flex-col md:flex-row md:items-center gap-4">
+                <div className="flex items-center gap-3 flex-1">
+                  <div className="w-11 h-11 rounded-xl grid place-items-center bg-primary/15 text-primary border border-primary/30">
+                    <KeyRound size={20} />
+                  </div>
+                  <div>
+                    <div className="font-heading font-bold">Have an activation code?</div>
+                    <div className="text-xs text-muted-foreground">Paid UGX 5,000? Enter the code your admin gave you to unlock Premium.</div>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Input value={code} onChange={(e) => setCode(e.target.value.toUpperCase())}
+                    placeholder="ENTER CODE" className="uppercase tracking-widest font-mono" maxLength={32} />
+                  <Button onClick={redeemCode} disabled={redeeming || !code.trim()} className="shrink-0">
+                    {redeeming ? "..." : "Redeem"}
+                  </Button>
+                </div>
+              </div>
+            </section>
+          )}
+          {isPremium && premiumExpires && (
+            <section className="glass-card rounded-2xl p-4 border border-primary/40 flex items-center gap-3"
+              style={{ background: "hsl(var(--primary) / 0.08)" }}>
+              <Crown className="text-primary" size={20} />
+              <div className="text-sm">
+                <span className="font-bold text-primary">Premium active</span>
+                <span className="text-muted-foreground"> · expires {new Date(premiumExpires).toLocaleDateString()}</span>
+              </div>
+            </section>
+          )}
 
           {/* Quote + Quick actions */}
           <section className="grid md:grid-cols-3 gap-4">

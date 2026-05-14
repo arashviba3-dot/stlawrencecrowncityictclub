@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      activation_codes: {
+        Row: {
+          code: string
+          created_at: string
+          created_by: string
+          duration_days: number
+          id: string
+          note: string | null
+          redeemed_at: string | null
+          redeemed_by: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          created_by: string
+          duration_days?: number
+          id?: string
+          note?: string | null
+          redeemed_at?: string | null
+          redeemed_by?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          created_by?: string
+          duration_days?: number
+          id?: string
+          note?: string | null
+          redeemed_at?: string | null
+          redeemed_by?: string | null
+        }
+        Relationships: []
+      }
       conversation_members: {
         Row: {
           conversation_id: string
@@ -162,7 +195,10 @@ export type Database = {
           email: string | null
           full_name: string | null
           id: string
+          is_premium: boolean
+          premium_expires_at: string | null
           updated_at: string
+          xp: number
         }
         Insert: {
           avatar_url?: string | null
@@ -172,7 +208,10 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id: string
+          is_premium?: boolean
+          premium_expires_at?: string | null
           updated_at?: string
+          xp?: number
         }
         Update: {
           avatar_url?: string | null
@@ -182,7 +221,10 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id?: string
+          is_premium?: boolean
+          premium_expires_at?: string | null
           updated_at?: string
+          xp?: number
         }
         Relationships: []
       }
@@ -223,6 +265,7 @@ export type Database = {
         Args: { _conv: string; _user: string }
         Returns: boolean
       }
+      redeem_activation_code: { Args: { _code: string }; Returns: Json }
     }
     Enums: {
       app_role: "admin" | "member"

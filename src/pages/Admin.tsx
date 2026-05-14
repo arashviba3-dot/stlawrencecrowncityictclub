@@ -5,7 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
-import { Loader2, ShieldCheck, ShieldOff, Users, Wallet, Search, Check, X } from "lucide-react";
+import { Loader2, ShieldCheck, ShieldOff, Users, Wallet, Search, Check, X, KeyRound, Copy, Crown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
 type Member = {
@@ -24,27 +24,59 @@ type Payment = {
   status: string; created_at: string;
 };
 
+type ActivationCode = {
+  id: string; code: string; duration_days: number; created_at: string;
+  redeemed_by: string | null; redeemed_at: string | null; note: string | null;
+};
+
 const Admin = () => {
   const { user, isAdmin, loading } = useAuth();
   const [members, setMembers] = useState<Member[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [search, setSearch] = useState("");
   const [fetching, setFetching] = useState(true);
+  const [codes, setCodes] = useState<ActivationCode[]>([]);
+  const [codeDays, setCodeDays] = useState(30);
+  const [codeNote, setCodeNote] = useState("");
 
   const load = async () => {
     setFetching(true);
-    const [{ data: profs }, { data: roles }, { data: pays }] = await Promise.all([
+    const [{ data: profs }, { data: roles }, { data: pays }, { data: cds }] = await Promise.all([
       supabase.from("profiles").select("*").order("created_at", { ascending: false }),
       supabase.from("user_roles").select("user_id, role"),
       supabase.from("payments").select("*").order("created_at", { ascending: false }),
+      supabase.from("activation_codes" as any).select("*").order("created_at", { ascending: false }),
     ]);
     const adminSet = new Set((roles || []).filter(r => r.role === "admin").map(r => r.user_id));
     setMembers((profs || []).map(p => ({ ...p, is_admin: adminSet.has(p.id) }) as Member));
     setPayments((pays as Payment[]) || []);
+    setCodes(((cds as unknown) as ActivationCode[]) || []);
     setFetching(false);
   };
 
   useEffect(() => { if (isAdmin) load(); }, [isAdmin]);
+
+  const generateCode = async () => {
+    const random = Array.from({ length: 10 }, () =>
+      "ABCDEFGHJKMNPQRSTUVWXYZ23456789"[Math.floor(Math.random() * 31)]
+    ).join("");
+    const newCode = `SLC-${random}`;
+    const { error } = await supabase.from("activation_codes" as any).insert({
+      code: newCode,
+      duration_days: codeDays,
+      created_by: user!.id,
+      note: codeNote || null,
+    });
+    if (error) return toast({ title: "Failed", description: error.message, variant: "destructive" });
+    toast({ title: "Code generated", description: newCode });
+    setCodeNote("");
+    load();
+  };
+
+  const copyCode = (c: string) => {
+    navigator.clipboard.writeText(c);
+    toast({ title: "Copied", description: c });
+  };
 
   const setStatus = async (p: Payment, status: "approved" | "rejected") => {
     const { error } = await supabase.from("payments").update({ status, paid_at: status === "approved" ? new Date().toISOString() : null }).eq("id", p.id);
@@ -140,7 +172,78 @@ const Admin = () => {
           Tip: To make the very first admin, sign up, then open Backend → user_roles → set your role to "admin".
         </p>
 
-        {/* Payments management */}
+        {/* Premium Activation Codes */}
+        <div className="flex items-center gap-3 mt-12 mb-4">
+          <Crown className="text-primary" />
+          <h2 className="font-heading font-bold text-2xl">Premium Activation Codes</h2>
+          <span className="ml-auto text-sm text-muted-foreground">
+            {codes.filter(c => !c.redeemed_by).length} unused · {codes.length} total
+          </span>
+        </div>
+
+        <div className="glass-card rounded-2xl border border-primary/20 p-4 mb-3">
+          <div className="flex flex-col md:flex-row gap-2 md:items-end">
+            <div className="flex-1">
+              <label className="text-xs text-muted-foreground">Note (optional — e.g. student name)</label>
+              <Input value={codeNote} onChange={(e) => setCodeNote(e.target.value)} placeholder="For: John Doe" />
+            </div>
+            <div className="w-full md:w-32">
+              <label className="text-xs text-muted-foreground">Duration (days)</label>
+              <Input type="number" min={1} max={365} value={codeDays}
+                onChange={(e) => setCodeDays(Math.max(1, parseInt(e.target.value || "30")))} />
+            </div>
+            <Button onClick={generateCode} className="shrink-0">
+              <KeyRound size={14} className="mr-1" /> Generate code
+            </Button>
+          </div>
+        </div>
+
+        <div className="glass-card rounded-2xl border border-primary/20 overflow-x-auto mb-4">
+          <table className="w-full text-sm">
+            <thead className="bg-muted/50 text-left">
+              <tr>
+                <th className="p-3">Code</th>
+                <th className="p-3 hidden md:table-cell">Note</th>
+                <th className="p-3">Days</th>
+                <th className="p-3">Status</th>
+                <th className="p-3 hidden md:table-cell">Created</th>
+                <th className="p-3 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {codes.map(c => (
+                <tr key={c.id} className="border-t border-border hover:bg-muted/20">
+                  <td className="p-3 font-mono text-xs font-bold tracking-wider">{c.code}</td>
+                  <td className="p-3 hidden md:table-cell text-muted-foreground">{c.note || "—"}</td>
+                  <td className="p-3">{c.duration_days}d</td>
+                  <td className="p-3">
+                    {c.redeemed_by ? (
+                      <span className="text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground">Redeemed</span>
+                    ) : (
+                      <span className="text-xs px-2 py-1 rounded-full bg-primary/20 text-primary">Available</span>
+                    )}
+                  </td>
+                  <td className="p-3 hidden md:table-cell text-muted-foreground text-xs">
+                    {new Date(c.created_at).toLocaleDateString()}
+                  </td>
+                  <td className="p-3 text-right">
+                    {!c.redeemed_by && (
+                      <Button size="sm" variant="outline" onClick={() => copyCode(c.code)}>
+                        <Copy size={14} className="mr-1" /> Copy
+                      </Button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+              {codes.length === 0 && (
+                <tr><td colSpan={6} className="p-8 text-center text-muted-foreground">
+                  No codes yet. Generate one above and share it with a student after they pay.
+                </td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
         <div className="flex items-center gap-3 mt-12 mb-4">
           <Wallet className="text-purple-pop" />
           <h2 className="font-heading font-bold text-2xl">Payments</h2>
