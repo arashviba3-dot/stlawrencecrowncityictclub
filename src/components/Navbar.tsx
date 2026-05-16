@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X, LogIn, User as UserIcon } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import clubLogo from "@/assets/club-logo.png";
 import ThemeToggle from "./ThemeToggle";
-import { useAuth } from "@/contexts/AuthContext";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -14,44 +12,11 @@ const navLinks = [
   { label: "Team", href: "#team" },
   { label: "Facilities", href: "#facilities" },
   { label: "Resources", href: "#resources" },
-  { label: "Games", href: "#games" },
-  { label: "Music", href: "/music" },
-  { label: "Chat", href: "/chat" },
   { label: "Contact", href: "#contact" },
 ];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const { user, isAdmin } = useAuth();
-
-  const AccountButton = ({ onClick }: { onClick?: () => void }) =>
-    user ? (
-      <div className="flex items-center gap-2">
-        <Link
-          to="/dashboard"
-          onClick={onClick}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors shadow-[0_0_16px_hsl(var(--primary)/0.4)]"
-        >
-          Dashboard
-        </Link>
-        <Link
-          to="/profile"
-          onClick={onClick}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/15 border border-primary/40 text-sm font-medium text-foreground hover:bg-primary/25 transition-colors"
-        >
-          <UserIcon size={14} />
-          {isAdmin ? "Admin" : "Profile"}
-        </Link>
-      </div>
-    ) : (
-      <Link
-        to="/auth"
-        onClick={onClick}
-        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors"
-      >
-        <LogIn size={14} /> Login
-      </Link>
-    );
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-primary/20">
