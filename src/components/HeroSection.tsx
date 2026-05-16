@@ -61,14 +61,7 @@ const HeroSection = () => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full border border-primary-foreground/[0.03] animate-[spin_90s_linear_infinite_reverse]" />
       </div>
 
-      {/* Sound toggle */}
-      <button
-        onClick={toggleMute}
-        className="absolute top-24 right-6 z-20 w-10 h-10 rounded-full bg-background/30 backdrop-blur-sm border border-primary-foreground/20 flex items-center justify-center text-primary-foreground/70 hover:text-glow hover:bg-background/50 transition-all duration-300"
-        aria-label={muted ? "Unmute video" : "Mute video"}
-      >
-        {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
-      </button>
+      {/* Hero is muted by default; floating music player controls audio */}
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
