@@ -35,6 +35,7 @@ const Index = () => {
       <NewsletterSignup />
       <ContactSection />
       <Footer />
+      <SchoolAnthemPlayer />
     </div>
   );
 };
