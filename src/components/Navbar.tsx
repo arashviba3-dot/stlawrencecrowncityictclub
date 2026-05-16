@@ -73,9 +73,6 @@ const Navbar = () => {
               </li>
             ))}
           </ul>
-          <div className="flex justify-center pb-6">
-            <AccountButton onClick={() => setOpen(false)} />
-          </div>
         </div>
       )}
     </nav>
