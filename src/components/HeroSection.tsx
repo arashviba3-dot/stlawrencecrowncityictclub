@@ -2,7 +2,7 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import heroVideo from "@/assets/hero-video.mp4.asset.json";
 import heroBanner from "@/assets/hero-banner.jpg";
 import clubLogo from "@/assets/club-logo.png";
-import { ArrowDown, Play, Volume2, VolumeX } from "lucide-react";
+import { ArrowDown, Play } from "lucide-react";
 
 const HeroSection = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
