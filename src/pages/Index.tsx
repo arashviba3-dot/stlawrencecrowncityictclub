@@ -14,6 +14,7 @@ import NewsletterSignup from "@/components/NewsletterSignup";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import PhotoSlider from "@/components/PhotoSlider";
+import SchoolAnthemPlayer from "@/components/SchoolAnthemPlayer";
 
 const Index = () => {
   return (
@@ -34,6 +35,7 @@ const Index = () => {
       <NewsletterSignup />
       <ContactSection />
       <Footer />
+      <SchoolAnthemPlayer />
     </div>
   );
 };
