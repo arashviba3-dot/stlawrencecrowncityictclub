@@ -43,7 +43,6 @@ const Navbar = () => {
             ))}
           </ul>
           <ThemeToggle />
-          <AccountButton />
         </div>
 
         {/* Mobile */}
