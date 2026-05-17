@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { Music, Volume2, VolumeX, Pause, Play, SkipForward, SkipBack } from "lucide-react";
+import welcomeSong from "@/assets/welcome-song.mp3";
 import schoolAnthem from "@/assets/school-anthem.mp3";
 import weRiseTogetherAnthem from "@/assets/we-rise-together-anthem.mp3";
 import weRiseTogether from "@/assets/we-rise-together.mp3";
 import crownCityWuuu from "@/assets/crown-city-wuuu.mp3";
 
 const PLAYLIST = [
+  { title: "Digital Dreams — Welcome Song", src: welcomeSong },
   { title: "St Lawrence Anthem", src: schoolAnthem },
   { title: "Crown City Wuuuuu", src: crownCityWuuu },
   { title: "We Rise Together", src: weRiseTogether },
