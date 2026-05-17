@@ -47,10 +47,30 @@ const Profile = () => {
       toast({ title: "File too large", description: "Max 2MB", variant: "destructive" });
       return;
     }
+    const ALLOWED = ["image/png", "image/jpeg", "image/webp", "image/gif"] as const;
+    if (!ALLOWED.includes(file.type as any)) {
+      toast({ title: "Unsupported file", description: "Use PNG, JPG, WEBP or GIF", variant: "destructive" });
+      return;
+    }
+    // Magic-byte check — guard against renamed/non-image files
+    const head = new Uint8Array(await file.slice(0, 12).arrayBuffer());
+    const isPng = head[0] === 0x89 && head[1] === 0x50 && head[2] === 0x4e && head[3] === 0x47;
+    const isJpg = head[0] === 0xff && head[1] === 0xd8 && head[2] === 0xff;
+    const isGif = head[0] === 0x47 && head[1] === 0x49 && head[2] === 0x46;
+    const isWebp = head[0] === 0x52 && head[1] === 0x49 && head[2] === 0x46 && head[3] === 0x46 &&
+                   head[8] === 0x57 && head[9] === 0x45 && head[10] === 0x42 && head[11] === 0x50;
+    if (!(isPng || isJpg || isGif || isWebp)) {
+      toast({ title: "Invalid image", description: "File contents are not a real image.", variant: "destructive" });
+      return;
+    }
     setBusy(true);
-    const ext = file.name.split(".").pop();
+    const extByType: Record<string, string> = { "image/png": "png", "image/jpeg": "jpg", "image/webp": "webp", "image/gif": "gif" };
+    const ext = extByType[file.type] ?? "png";
     const path = `${user.id}/avatar.${ext}`;
-    const { error: upErr } = await supabase.storage.from("avatars").upload(path, file, { upsert: true });
+    const { error: upErr } = await supabase.storage.from("avatars").upload(path, file, {
+      upsert: true,
+      contentType: file.type,
+    });
     if (upErr) { setBusy(false); toast({ title: "Upload failed", description: upErr.message, variant: "destructive" }); return; }
     const { data: pub } = supabase.storage.from("avatars").getPublicUrl(path);
     const url = `${pub.publicUrl}?t=${Date.now()}`;
