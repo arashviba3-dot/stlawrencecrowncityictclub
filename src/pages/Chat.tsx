@@ -69,16 +69,16 @@ const Chat = () => {
     const userIds = Array.from(new Set((mems ?? []).map((m: any) => m.user_id)));
     if (userIds.length) {
       const { data: profs } = await supabase
-        .from("profiles").select("id, full_name, email, avatar_url").in("id", userIds);
+        .from("public_profiles").select("id, full_name, avatar_url").in("id", userIds);
       const pmap: Record<string, Profile> = {};
-      (profs ?? []).forEach((p: any) => { pmap[p.id] = p; });
+      (profs ?? []).forEach((p: any) => { pmap[p.id] = { ...p, email: null } as Profile; });
       setProfiles(pmap);
     }
   };
 
   const loadAllUsers = async () => {
-    const { data } = await supabase.from("profiles").select("id, full_name, email, avatar_url").limit(100);
-    setAllUsers((data ?? []) as Profile[]);
+    const { data } = await supabase.from("public_profiles").select("id, full_name, avatar_url").limit(100);
+    setAllUsers(((data ?? []) as any[]).map((p) => ({ ...p, email: null })) as Profile[]);
   };
 
   const loadMessages = async (convId: string) => {
