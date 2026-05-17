@@ -1,8 +1,9 @@
 import { User, Crown, Shield, Wrench, PenTool, GraduationCap } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
+import presidentLukwago from "@/assets/president-lukwago.jpg";
 
 const team = [
-  { name: "Club President", role: "President", icon: Crown, desc: "Leads club meetings, organizes events, and represents the club in school activities.", accent: "from-primary to-secondary" },
+  { name: "Lukwago Ashiraf", role: "President", icon: Crown, desc: "Leads club meetings, organizes events, and represents the club in school activities.", accent: "from-primary to-secondary", photo: presidentLukwago },
   { name: "Vice President", role: "Vice President", icon: Shield, desc: "Supports the president and coordinates project teams across all ICT initiatives.", accent: "from-secondary to-primary" },
   { name: "Secretary", role: "Secretary", icon: User, desc: "Manages documentation, meeting notes, and communication with members.", accent: "from-primary to-accent" },
   { name: "Tech Lead", role: "Technical Lead", icon: Wrench, desc: "Guides students through coding workshops and oversees technical projects.", accent: "from-secondary to-primary" },
@@ -30,9 +31,15 @@ const TeamSection = () => {
           {team.map((member, i) => (
             <AnimatedSection key={member.role} delay={i * 80}>
               <div className="glass-card rounded-2xl p-7 text-center card-hover glow-border group">
-                <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${member.accent} flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform duration-500`}>
-                  <member.icon className="text-primary-foreground" size={32} />
-                </div>
+                {("photo" in member) && (member as any).photo ? (
+                  <div className={`w-24 h-24 rounded-2xl overflow-hidden mx-auto mb-5 ring-2 ring-primary/50 group-hover:scale-110 transition-transform duration-500 shadow-lg shadow-primary/30`}>
+                    <img src={(member as any).photo} alt={member.name} className="w-full h-full object-cover" />
+                  </div>
+                ) : (
+                  <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${member.accent} flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform duration-500`}>
+                    <member.icon className="text-primary-foreground" size={32} />
+                  </div>
+                )}
                 <h3 className="font-heading font-bold text-lg text-foreground">{member.name}</h3>
                 <p className="text-primary text-sm font-semibold mb-3 tracking-wide">{member.role}</p>
                 <p className="text-muted-foreground text-sm leading-relaxed">{member.desc}</p>

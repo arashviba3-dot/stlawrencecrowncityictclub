@@ -7,6 +7,9 @@ import p4 from "@/assets/student-photo-4.jpg";
 import p5 from "@/assets/student-photo-5.jpg";
 import p6 from "@/assets/student-photo-6.jpg";
 import p7 from "@/assets/student-photo-7.jpg";
+import p8 from "@/assets/student-photo-8.jpg";
+import p9 from "@/assets/student-photo-9.jpg";
+import p10 from "@/assets/student-photo-10.jpg";
 
 const slides = [
   { src: p1, caption: "Our ICT Family — Crown City Pride" },
@@ -16,6 +19,9 @@ const slides = [
   { src: p5, caption: "St Lawrence — For a Bright Future" },
   { src: p6, caption: "Code. Create. Conquer." },
   { src: p7, caption: "The world rewards success, not efforts" },
+  { src: p8, caption: "Focused minds at the Crown City ICT Lab" },
+  { src: p9, caption: "Hands on keyboards, eyes on the future" },
+  { src: p10, caption: "Inside our smart computer lab" },
 ];
 
 const PhotoSlider = () => {

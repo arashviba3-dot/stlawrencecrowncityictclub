@@ -23,6 +23,13 @@ const featured: Video = {
 
 const videos: Video[] = [
   {
+    title: "Crown City Club Life",
+    url: "/club-life.mp4",
+    category: "Club Life",
+    duration: "Member showcase",
+    accent: "from-primary/30 to-pink-pop/20",
+  },
+  {
     title: "Coding Workshop Highlights",
     url: projectCodingVideo.url,
     category: "Workshop",
