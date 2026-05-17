@@ -251,7 +251,24 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      public_profiles: {
+        Row: {
+          avatar_url: string | null
+          full_name: string | null
+          id: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          full_name?: string | null
+          id?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          full_name?: string | null
+          id?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
@@ -264,6 +281,14 @@ export type Database = {
       is_conversation_member: {
         Args: { _conv: string; _user: string }
         Returns: boolean
+      }
+      list_member_directory: {
+        Args: never
+        Returns: {
+          avatar_url: string
+          full_name: string
+          id: string
+        }[]
       }
       redeem_activation_code: { Args: { _code: string }; Returns: Json }
     }

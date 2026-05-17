@@ -77,7 +77,7 @@ const Dashboard = () => {
   }, [user, loading, navigate]);
 
   useEffect(() => {
-    supabase.from("profiles").select("id", { count: "exact", head: true }).then(({ count }) => setMemberCount(count ?? 0));
+    supabase.from("public_profiles").select("id", { count: "exact", head: true }).then(({ count }) => setMemberCount(count ?? 0));
   }, []);
 
   // Realtime presence: counts online dashboard users
